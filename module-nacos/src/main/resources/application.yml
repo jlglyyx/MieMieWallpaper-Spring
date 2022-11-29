@@ -1,0 +1,39 @@
+server:
+  port: 20000
+spring:
+  application:
+    name: module-nacos
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/wallpaper?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: root
+    password: root
+  servlet:
+    multipart:
+      max-file-size: 300MB
+      max-request-size: 300MB
+      enabled: true
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: module-image
+          uri: lb://module-image
+          predicates:
+            - Path=/image/**,/video/**,/files/**,/uploadFile/**
+        - id: module-login
+          uri: lb://module-login
+          predicates:
+            - Path=/user/**,/uploadFile/**
+        - id: module-main
+          uri: http://localhost:20001
+          predicates:
+            - Path=/api/user/**,/api/wallpaper/**,/api/pay/**,/image/**

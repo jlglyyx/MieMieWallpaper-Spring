@@ -1,0 +1,31 @@
+server:
+  port: 20001
+spring:
+  application:
+    name: module-main
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/wallpaper?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+  servlet:
+    multipart:
+      max-file-size: 300MB
+      max-request-size: 300MB
+      enabled: true
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+      discovery:
+        server-addr: 127.0.0.1:8848
+mybatis:
+  mapper-locations: mapper/*.xml
+  type-aliases-package: com.yang.module.main.dao.mapper
+  configuration:
+    map-underscore-to-camel-case: true
+logging:
+  level:
+    root: debug
+debug: true

@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yang.module.main.dao.mapper.WallDetailMapper">
+    <resultMap id="BaseResultMap" type="com.yang.module.main.dao.pojo.WallDetail">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="tab_id" property="tabId" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="wall_url" property="wallUrl" jdbcType="VARCHAR"/>
+        <result column="wall_name" property="wallName" jdbcType="VARCHAR"/>
+        <result column="wall_type" property="wallType" jdbcType="INTEGER"/>
+        <result column="wall_down_num" property="wallDownNum" jdbcType="INTEGER"/>
+        <result column="is_vip" property="isVip" jdbcType="BIT"/>
+        <result column="like_num" property="likeNum" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="extra" property="extra" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id
+        , tab_id, user_id, wall_url, wall_name, wall_type, wall_down_num, is_vip, like_num,
+    create_time, update_time, extra
+    </sql>
+    <select id="selectByExample" resultMap="BaseResultMap"
+            parameterType="com.yang.module.main.dao.pojo.WallDetailExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from wall_detail
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+
+
+    <select id="queryWallpaper" resultMap="BaseResultMap">
+
+        select * from wall_detail
+            <choose>
+                <when test="userId != null and userId != ''">
+                    <where>
+                            user_id  =  #{userId}
+                        <if test="keyword != null and keyword != '' ">
+                            AND wall_name LIKE '%${keyword}%'
+                        </if>
+
+                    </where>
+                </when>
+                <when test="tabId != null and tabId != ''">
+                    <where>
+                            tab_id  =  #{tabId}
+                        <if test="keyword != null and keyword != '' ">
+                            AND wall_name LIKE '%${keyword}%'
+                        </if>
+
+                    </where>
+                </when>
+                <otherwise>
+                    <if test="keyword != null and keyword != '' ">
+                        where wall_name LIKE '%${keyword}%'
+                    </if>
+                </otherwise>
+            </choose>
+
+        AND wall_type = #{wallType,jdbcType=INTEGER}
+<!--        <where>-->
+<!--            <if test="tabId != null and tabId != ''">-->
+<!--                tab_id  =  #{tabId}-->
+<!--            </if>-->
+<!--            <if test="keyword != null and keyword != '' ">-->
+<!--                AND wall_name LIKE '%${keyword}%'-->
+<!--            </if>-->
+
+<!--        </where>-->
+
+<!--        <choose>-->
+<!--            <when test="tabId != null and tabId != ''">-->
+<!--                where tab_id  = ${tabId}-->
+<!--                <if test="keyword != null and keyword != '' ">-->
+<!--                    AND wall_name LIKE '%${keyword}%'-->
+<!--                </if>-->
+<!--            </when>-->
+<!--            <otherwise>-->
+<!--                <if test="keyword != null and keyword != '' ">-->
+<!--                    where wall_name LIKE '%${keyword}%'-->
+<!--                </if>-->
+<!--            </otherwise>-->
+<!--        </choose>-->
+
+<!--        <if test="tabId != null and tabId != '' ">-->
+<!--            where wall_name LIKE '%${keyword}%'-->
+<!--        </if>-->
+<!--        <if test="keyword != null and keyword != '' ">-->
+<!--            where wall_name LIKE '%${keyword}%'-->
+<!--        </if>-->
+        <choose>
+            <when test="order == 0">
+                ORDER BY create_time DESC
+            </when>
+            <when test="order == 1">
+                ORDER BY wall_down_num DESC
+            </when>
+            <otherwise>
+                ORDER BY create_time DESC
+            </otherwise>
+
+        </choose>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from wall_detail
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete
+        from wall_detail
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.yang.module.main.dao.pojo.WallDetailExample">
+        delete from wall_detail
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.yang.module.main.dao.pojo.WallDetail">
+        insert into wall_detail (id, tab_id, user_id,
+                                 wall_url, wall_name, wall_type,
+                                 wall_down_num, is_vip, like_num,
+                                 create_time, update_time, extra)
+        values (#{id,jdbcType=VARCHAR}, #{tabId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR},
+                #{wallUrl,jdbcType=VARCHAR}, #{wallName,jdbcType=VARCHAR}, #{wallType,jdbcType=INTEGER},
+                #{wallDownNum,jdbcType=INTEGER}, #{isVip,jdbcType=BIT}, #{likeNum,jdbcType=INTEGER},
+                #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{extra,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.yang.module.main.dao.pojo.WallDetail">
+        insert into wall_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="tabId != null">
+                tab_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="wallUrl != null">
+                wall_url,
+            </if>
+            <if test="wallName != null">
+                wall_name,
+            </if>
+            <if test="wallType != null">
+                wall_type,
+            </if>
+            <if test="wallDownNum != null">
+                wall_down_num,
+            </if>
+            <if test="isVip != null">
+                is_vip,
+            </if>
+            <if test="likeNum != null">
+                like_num,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="extra != null">
+                extra,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="tabId != null">
+                #{tabId,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="wallUrl != null">
+                #{wallUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="wallName != null">
+                #{wallName,jdbcType=VARCHAR},
+            </if>
+            <if test="wallType != null">
+                #{wallType,jdbcType=INTEGER},
+            </if>
+            <if test="wallDownNum != null">
+                #{wallDownNum,jdbcType=INTEGER},
+            </if>
+            <if test="isVip != null">
+                #{isVip,jdbcType=BIT},
+            </if>
+            <if test="likeNum != null">
+                #{likeNum,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="extra != null">
+                #{extra,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.yang.module.main.dao.pojo.WallDetailExample"
+            resultType="java.lang.Integer">
+        select count(*) from wall_detail
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update wall_detail
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=VARCHAR},
+            </if>
+            <if test="record.tabId != null">
+                tab_id = #{record.tabId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userId != null">
+                user_id = #{record.userId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.wallUrl != null">
+                wall_url = #{record.wallUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="record.wallName != null">
+                wall_name = #{record.wallName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.wallType != null">
+                wall_type = #{record.wallType,jdbcType=INTEGER},
+            </if>
+            <if test="record.wallDownNum != null">
+                wall_down_num = #{record.wallDownNum,jdbcType=INTEGER},
+            </if>
+            <if test="record.isVip != null">
+                is_vip = #{record.isVip,jdbcType=BIT},
+            </if>
+            <if test="record.likeNum != null">
+                like_num = #{record.likeNum,jdbcType=INTEGER},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.updateTime != null">
+                update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.extra != null">
+                extra = #{record.extra,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update wall_detail
+        set id = #{record.id,jdbcType=VARCHAR},
+        tab_id = #{record.tabId,jdbcType=VARCHAR},
+        user_id = #{record.userId,jdbcType=VARCHAR},
+        wall_url = #{record.wallUrl,jdbcType=VARCHAR},
+        wall_name = #{record.wallName,jdbcType=VARCHAR},
+        wall_type = #{record.wallType,jdbcType=INTEGER},
+        wall_down_num = #{record.wallDownNum,jdbcType=INTEGER},
+        is_vip = #{record.isVip,jdbcType=BIT},
+        like_num = #{record.likeNum,jdbcType=INTEGER},
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+        extra = #{record.extra,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.yang.module.main.dao.pojo.WallDetail">
+        update wall_detail
+        <set>
+            <if test="tabId != null">
+                tab_id = #{tabId,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="wallUrl != null">
+                wall_url = #{wallUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="wallName != null">
+                wall_name = #{wallName,jdbcType=VARCHAR},
+            </if>
+            <if test="wallType != null">
+                wall_type = #{wallType,jdbcType=INTEGER},
+            </if>
+            <if test="wallDownNum != null">
+                wall_down_num = #{wallDownNum,jdbcType=INTEGER},
+            </if>
+            <if test="isVip != null">
+                is_vip = #{isVip,jdbcType=BIT},
+            </if>
+            <if test="likeNum != null">
+                like_num = #{likeNum,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="extra != null">
+                extra = #{extra,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.yang.module.main.dao.pojo.WallDetail">
+        update wall_detail
+        set tab_id        = #{tabId,jdbcType=VARCHAR},
+            user_id       = #{userId,jdbcType=VARCHAR},
+            wall_url      = #{wallUrl,jdbcType=VARCHAR},
+            wall_name     = #{wallName,jdbcType=VARCHAR},
+            wall_type     = #{wallType,jdbcType=INTEGER},
+            wall_down_num = #{wallDownNum,jdbcType=INTEGER},
+            is_vip        = #{isVip,jdbcType=BIT},
+            like_num      = #{likeNum,jdbcType=INTEGER},
+            create_time   = #{createTime,jdbcType=TIMESTAMP},
+            update_time   = #{updateTime,jdbcType=TIMESTAMP},
+            extra         = #{extra,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>
