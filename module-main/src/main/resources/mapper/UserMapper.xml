@@ -1,0 +1,713 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yang.module.main.dao.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.yang.module.main.dao.pojo.User" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="token" property="token" jdbcType="VARCHAR" />
+    <result column="rim_token" property="rimToken" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_sex" property="userSex" jdbcType="INTEGER" />
+    <result column="user_age" property="userAge" jdbcType="INTEGER" />
+    <result column="user_birthday" property="userBirthday" jdbcType="VARCHAR" />
+    <result column="user_describe" property="userDescribe" jdbcType="VARCHAR" />
+    <result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
+    <result column="user_password" property="userPassword" jdbcType="VARCHAR" />
+    <result column="user_money" property="userMoney" jdbcType="INTEGER" />
+    <result column="user_integral" property="userIntegral" jdbcType="INTEGER" />
+    <result column="user_ad_num" property="userAdNum" jdbcType="INTEGER" />
+    <result column="user_attention" property="userAttention" jdbcType="INTEGER" />
+    <result column="user_fan" property="userFan" jdbcType="INTEGER" />
+    <result column="user_location_address" property="userLocationAddress" jdbcType="VARCHAR" />
+    <result column="user_qq" property="userQq" jdbcType="VARCHAR" />
+    <result column="user_wechat" property="userWechat" jdbcType="VARCHAR" />
+    <result column="user_attr" property="userAttr" jdbcType="VARCHAR" />
+    <result column="user_info_bg" property="userInfoBg" jdbcType="VARCHAR" />
+    <result column="user_vip_level" property="userVipLevel" jdbcType="INTEGER" />
+    <result column="user_credit" property="userCredit" jdbcType="INTEGER" />
+    <result column="user_vip_expired" property="userVipExpired" jdbcType="BIT" />
+    <result column="user_type" property="userType" jdbcType="INTEGER" />
+    <result column="user_sign" property="userSign" jdbcType="INTEGER" />
+    <result column="user_is_sign" property="userIsSign" jdbcType="BIT" />
+    <result column="user_sign_receive" property="userSignReceive" jdbcType="BIT" />
+    <result column="user_max_ad_num" property="userMaxAdNum" jdbcType="INTEGER" />
+    <result column="user_current_ad_num" property="userCurrentAdNum" jdbcType="INTEGER" />
+    <result column="user_ad_receive" property="userAdReceive" jdbcType="BIT" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="user_extra" property="userExtra" jdbcType="VARCHAR" />
+    <result column="user_app_version" property="userAppVersion" jdbcType="VARCHAR" />
+    <result column="user_last_login_time" property="userLastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="user_is_delete" property="userIsDelete" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, token, rim_token, user_name, user_sex, user_age, user_birthday, user_describe, 
+    user_phone, user_password, user_money, user_integral, user_ad_num, user_attention, 
+    user_fan, user_location_address, user_qq, user_wechat, user_attr, user_info_bg, user_vip_level, 
+    user_credit, user_vip_expired, user_type, user_sign, user_is_sign, user_sign_receive, 
+    user_max_ad_num, user_current_ad_num, user_ad_receive, update_time, create_time, 
+    user_extra, user_app_version, user_last_login_time, user_is_delete
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yang.module.main.dao.pojo.UserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="searchUser" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select * from user where user_name LIKE '%${keyword}%'
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByPhone" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List"/>
+    from user
+    where user_phone = #{userPhone,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from user
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yang.module.main.dao.pojo.UserExample" >
+    delete from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yang.module.main.dao.pojo.User" >
+    insert into user (id, token, rim_token, 
+      user_name, user_sex, user_age, 
+      user_birthday, user_describe, user_phone, 
+      user_password, user_money, user_integral, 
+      user_ad_num, user_attention, user_fan, 
+      user_location_address, user_qq, user_wechat, 
+      user_attr, user_info_bg, user_vip_level, 
+      user_credit, user_vip_expired, user_type, 
+      user_sign, user_is_sign, user_sign_receive, 
+      user_max_ad_num, user_current_ad_num, user_ad_receive, 
+      update_time, create_time, user_extra, 
+      user_app_version, user_last_login_time, user_is_delete
+      )
+    values (#{id,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, #{rimToken,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{userSex,jdbcType=INTEGER}, #{userAge,jdbcType=INTEGER}, 
+      #{userBirthday,jdbcType=VARCHAR}, #{userDescribe,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, 
+      #{userPassword,jdbcType=VARCHAR}, #{userMoney,jdbcType=INTEGER}, #{userIntegral,jdbcType=INTEGER}, 
+      #{userAdNum,jdbcType=INTEGER}, #{userAttention,jdbcType=INTEGER}, #{userFan,jdbcType=INTEGER}, 
+      #{userLocationAddress,jdbcType=VARCHAR}, #{userQq,jdbcType=VARCHAR}, #{userWechat,jdbcType=VARCHAR}, 
+      #{userAttr,jdbcType=VARCHAR}, #{userInfoBg,jdbcType=VARCHAR}, #{userVipLevel,jdbcType=INTEGER}, 
+      #{userCredit,jdbcType=INTEGER}, #{userVipExpired,jdbcType=BIT}, #{userType,jdbcType=INTEGER}, 
+      #{userSign,jdbcType=INTEGER}, #{userIsSign,jdbcType=BIT}, #{userSignReceive,jdbcType=BIT}, 
+      #{userMaxAdNum,jdbcType=INTEGER}, #{userCurrentAdNum,jdbcType=INTEGER}, #{userAdReceive,jdbcType=BIT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{userExtra,jdbcType=VARCHAR}, 
+      #{userAppVersion,jdbcType=VARCHAR}, #{userLastLoginTime,jdbcType=TIMESTAMP}, #{userIsDelete,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yang.module.main.dao.pojo.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="token != null" >
+        token,
+      </if>
+      <if test="rimToken != null" >
+        rim_token,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="userSex != null" >
+        user_sex,
+      </if>
+      <if test="userAge != null" >
+        user_age,
+      </if>
+      <if test="userBirthday != null" >
+        user_birthday,
+      </if>
+      <if test="userDescribe != null" >
+        user_describe,
+      </if>
+      <if test="userPhone != null" >
+        user_phone,
+      </if>
+      <if test="userPassword != null" >
+        user_password,
+      </if>
+      <if test="userMoney != null" >
+        user_money,
+      </if>
+      <if test="userIntegral != null" >
+        user_integral,
+      </if>
+      <if test="userAdNum != null" >
+        user_ad_num,
+      </if>
+      <if test="userAttention != null" >
+        user_attention,
+      </if>
+      <if test="userFan != null" >
+        user_fan,
+      </if>
+      <if test="userLocationAddress != null" >
+        user_location_address,
+      </if>
+      <if test="userQq != null" >
+        user_qq,
+      </if>
+      <if test="userWechat != null" >
+        user_wechat,
+      </if>
+      <if test="userAttr != null" >
+        user_attr,
+      </if>
+      <if test="userInfoBg != null" >
+        user_info_bg,
+      </if>
+      <if test="userVipLevel != null" >
+        user_vip_level,
+      </if>
+      <if test="userCredit != null" >
+        user_credit,
+      </if>
+      <if test="userVipExpired != null" >
+        user_vip_expired,
+      </if>
+      <if test="userType != null" >
+        user_type,
+      </if>
+      <if test="userSign != null" >
+        user_sign,
+      </if>
+      <if test="userIsSign != null" >
+        user_is_sign,
+      </if>
+      <if test="userSignReceive != null" >
+        user_sign_receive,
+      </if>
+      <if test="userMaxAdNum != null" >
+        user_max_ad_num,
+      </if>
+      <if test="userCurrentAdNum != null" >
+        user_current_ad_num,
+      </if>
+      <if test="userAdReceive != null" >
+        user_ad_receive,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="userExtra != null" >
+        user_extra,
+      </if>
+      <if test="userAppVersion != null" >
+        user_app_version,
+      </if>
+      <if test="userLastLoginTime != null" >
+        user_last_login_time,
+      </if>
+      <if test="userIsDelete != null" >
+        user_is_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null" >
+        #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="rimToken != null" >
+        #{rimToken,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null" >
+        #{userSex,jdbcType=INTEGER},
+      </if>
+      <if test="userAge != null" >
+        #{userAge,jdbcType=INTEGER},
+      </if>
+      <if test="userBirthday != null" >
+        #{userBirthday,jdbcType=VARCHAR},
+      </if>
+      <if test="userDescribe != null" >
+        #{userDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null" >
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null" >
+        #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userMoney != null" >
+        #{userMoney,jdbcType=INTEGER},
+      </if>
+      <if test="userIntegral != null" >
+        #{userIntegral,jdbcType=INTEGER},
+      </if>
+      <if test="userAdNum != null" >
+        #{userAdNum,jdbcType=INTEGER},
+      </if>
+      <if test="userAttention != null" >
+        #{userAttention,jdbcType=INTEGER},
+      </if>
+      <if test="userFan != null" >
+        #{userFan,jdbcType=INTEGER},
+      </if>
+      <if test="userLocationAddress != null" >
+        #{userLocationAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="userQq != null" >
+        #{userQq,jdbcType=VARCHAR},
+      </if>
+      <if test="userWechat != null" >
+        #{userWechat,jdbcType=VARCHAR},
+      </if>
+      <if test="userAttr != null" >
+        #{userAttr,jdbcType=VARCHAR},
+      </if>
+      <if test="userInfoBg != null" >
+        #{userInfoBg,jdbcType=VARCHAR},
+      </if>
+      <if test="userVipLevel != null" >
+        #{userVipLevel,jdbcType=INTEGER},
+      </if>
+      <if test="userCredit != null" >
+        #{userCredit,jdbcType=INTEGER},
+      </if>
+      <if test="userVipExpired != null" >
+        #{userVipExpired,jdbcType=BIT},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="userSign != null" >
+        #{userSign,jdbcType=INTEGER},
+      </if>
+      <if test="userIsSign != null" >
+        #{userIsSign,jdbcType=BIT},
+      </if>
+      <if test="userSignReceive != null" >
+        #{userSignReceive,jdbcType=BIT},
+      </if>
+      <if test="userMaxAdNum != null" >
+        #{userMaxAdNum,jdbcType=INTEGER},
+      </if>
+      <if test="userCurrentAdNum != null" >
+        #{userCurrentAdNum,jdbcType=INTEGER},
+      </if>
+      <if test="userAdReceive != null" >
+        #{userAdReceive,jdbcType=BIT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userExtra != null" >
+        #{userExtra,jdbcType=VARCHAR},
+      </if>
+      <if test="userAppVersion != null" >
+        #{userAppVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="userLastLoginTime != null" >
+        #{userLastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userIsDelete != null" >
+        #{userIsDelete,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yang.module.main.dao.pojo.UserExample" resultType="java.lang.Integer" >
+    select count(*) from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.token != null" >
+        token = #{record.token,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rimToken != null" >
+        rim_token = #{record.rimToken,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userSex != null" >
+        user_sex = #{record.userSex,jdbcType=INTEGER},
+      </if>
+      <if test="record.userAge != null" >
+        user_age = #{record.userAge,jdbcType=INTEGER},
+      </if>
+      <if test="record.userBirthday != null" >
+        user_birthday = #{record.userBirthday,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userDescribe != null" >
+        user_describe = #{record.userDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPhone != null" >
+        user_phone = #{record.userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPassword != null" >
+        user_password = #{record.userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userMoney != null" >
+        user_money = #{record.userMoney,jdbcType=INTEGER},
+      </if>
+      <if test="record.userIntegral != null" >
+        user_integral = #{record.userIntegral,jdbcType=INTEGER},
+      </if>
+      <if test="record.userAdNum != null" >
+        user_ad_num = #{record.userAdNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.userAttention != null" >
+        user_attention = #{record.userAttention,jdbcType=INTEGER},
+      </if>
+      <if test="record.userFan != null" >
+        user_fan = #{record.userFan,jdbcType=INTEGER},
+      </if>
+      <if test="record.userLocationAddress != null" >
+        user_location_address = #{record.userLocationAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userQq != null" >
+        user_qq = #{record.userQq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userWechat != null" >
+        user_wechat = #{record.userWechat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userAttr != null" >
+        user_attr = #{record.userAttr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userInfoBg != null" >
+        user_info_bg = #{record.userInfoBg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userVipLevel != null" >
+        user_vip_level = #{record.userVipLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.userCredit != null" >
+        user_credit = #{record.userCredit,jdbcType=INTEGER},
+      </if>
+      <if test="record.userVipExpired != null" >
+        user_vip_expired = #{record.userVipExpired,jdbcType=BIT},
+      </if>
+      <if test="record.userType != null" >
+        user_type = #{record.userType,jdbcType=INTEGER},
+      </if>
+      <if test="record.userSign != null" >
+        user_sign = #{record.userSign,jdbcType=INTEGER},
+      </if>
+      <if test="record.userIsSign != null" >
+        user_is_sign = #{record.userIsSign,jdbcType=BIT},
+      </if>
+      <if test="record.userSignReceive != null" >
+        user_sign_receive = #{record.userSignReceive,jdbcType=BIT},
+      </if>
+      <if test="record.userMaxAdNum != null" >
+        user_max_ad_num = #{record.userMaxAdNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.userCurrentAdNum != null" >
+        user_current_ad_num = #{record.userCurrentAdNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.userAdReceive != null" >
+        user_ad_receive = #{record.userAdReceive,jdbcType=BIT},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.userExtra != null" >
+        user_extra = #{record.userExtra,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userAppVersion != null" >
+        user_app_version = #{record.userAppVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userLastLoginTime != null" >
+        user_last_login_time = #{record.userLastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.userIsDelete != null" >
+        user_is_delete = #{record.userIsDelete,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user
+    set id = #{record.id,jdbcType=VARCHAR},
+      token = #{record.token,jdbcType=VARCHAR},
+      rim_token = #{record.rimToken,jdbcType=VARCHAR},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      user_sex = #{record.userSex,jdbcType=INTEGER},
+      user_age = #{record.userAge,jdbcType=INTEGER},
+      user_birthday = #{record.userBirthday,jdbcType=VARCHAR},
+      user_describe = #{record.userDescribe,jdbcType=VARCHAR},
+      user_phone = #{record.userPhone,jdbcType=VARCHAR},
+      user_password = #{record.userPassword,jdbcType=VARCHAR},
+      user_money = #{record.userMoney,jdbcType=INTEGER},
+      user_integral = #{record.userIntegral,jdbcType=INTEGER},
+      user_ad_num = #{record.userAdNum,jdbcType=INTEGER},
+      user_attention = #{record.userAttention,jdbcType=INTEGER},
+      user_fan = #{record.userFan,jdbcType=INTEGER},
+      user_location_address = #{record.userLocationAddress,jdbcType=VARCHAR},
+      user_qq = #{record.userQq,jdbcType=VARCHAR},
+      user_wechat = #{record.userWechat,jdbcType=VARCHAR},
+      user_attr = #{record.userAttr,jdbcType=VARCHAR},
+      user_info_bg = #{record.userInfoBg,jdbcType=VARCHAR},
+      user_vip_level = #{record.userVipLevel,jdbcType=INTEGER},
+      user_credit = #{record.userCredit,jdbcType=INTEGER},
+      user_vip_expired = #{record.userVipExpired,jdbcType=BIT},
+      user_type = #{record.userType,jdbcType=INTEGER},
+      user_sign = #{record.userSign,jdbcType=INTEGER},
+      user_is_sign = #{record.userIsSign,jdbcType=BIT},
+      user_sign_receive = #{record.userSignReceive,jdbcType=BIT},
+      user_max_ad_num = #{record.userMaxAdNum,jdbcType=INTEGER},
+      user_current_ad_num = #{record.userCurrentAdNum,jdbcType=INTEGER},
+      user_ad_receive = #{record.userAdReceive,jdbcType=BIT},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      user_extra = #{record.userExtra,jdbcType=VARCHAR},
+      user_app_version = #{record.userAppVersion,jdbcType=VARCHAR},
+      user_last_login_time = #{record.userLastLoginTime,jdbcType=TIMESTAMP},
+      user_is_delete = #{record.userIsDelete,jdbcType=BIT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yang.module.main.dao.pojo.User" >
+    update user
+    <set >
+      <if test="token != null" >
+        token = #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="rimToken != null" >
+        rim_token = #{rimToken,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null" >
+        user_sex = #{userSex,jdbcType=INTEGER},
+      </if>
+      <if test="userAge != null" >
+        user_age = #{userAge,jdbcType=INTEGER},
+      </if>
+      <if test="userBirthday != null" >
+        user_birthday = #{userBirthday,jdbcType=VARCHAR},
+      </if>
+      <if test="userDescribe != null" >
+        user_describe = #{userDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null" >
+        user_phone = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null" >
+        user_password = #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userMoney != null" >
+        user_money = #{userMoney,jdbcType=INTEGER},
+      </if>
+      <if test="userIntegral != null" >
+        user_integral = #{userIntegral,jdbcType=INTEGER},
+      </if>
+      <if test="userAdNum != null" >
+        user_ad_num = #{userAdNum,jdbcType=INTEGER},
+      </if>
+      <if test="userAttention != null" >
+        user_attention = #{userAttention,jdbcType=INTEGER},
+      </if>
+      <if test="userFan != null" >
+        user_fan = #{userFan,jdbcType=INTEGER},
+      </if>
+      <if test="userLocationAddress != null" >
+        user_location_address = #{userLocationAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="userQq != null" >
+        user_qq = #{userQq,jdbcType=VARCHAR},
+      </if>
+      <if test="userWechat != null" >
+        user_wechat = #{userWechat,jdbcType=VARCHAR},
+      </if>
+      <if test="userAttr != null" >
+        user_attr = #{userAttr,jdbcType=VARCHAR},
+      </if>
+      <if test="userInfoBg != null" >
+        user_info_bg = #{userInfoBg,jdbcType=VARCHAR},
+      </if>
+      <if test="userVipLevel != null" >
+        user_vip_level = #{userVipLevel,jdbcType=INTEGER},
+      </if>
+      <if test="userCredit != null" >
+        user_credit = #{userCredit,jdbcType=INTEGER},
+      </if>
+      <if test="userVipExpired != null" >
+        user_vip_expired = #{userVipExpired,jdbcType=BIT},
+      </if>
+      <if test="userType != null" >
+        user_type = #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="userSign != null" >
+        user_sign = #{userSign,jdbcType=INTEGER},
+      </if>
+      <if test="userIsSign != null" >
+        user_is_sign = #{userIsSign,jdbcType=BIT},
+      </if>
+      <if test="userSignReceive != null" >
+        user_sign_receive = #{userSignReceive,jdbcType=BIT},
+      </if>
+      <if test="userMaxAdNum != null" >
+        user_max_ad_num = #{userMaxAdNum,jdbcType=INTEGER},
+      </if>
+      <if test="userCurrentAdNum != null" >
+        user_current_ad_num = #{userCurrentAdNum,jdbcType=INTEGER},
+      </if>
+      <if test="userAdReceive != null" >
+        user_ad_receive = #{userAdReceive,jdbcType=BIT},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userExtra != null" >
+        user_extra = #{userExtra,jdbcType=VARCHAR},
+      </if>
+      <if test="userAppVersion != null" >
+        user_app_version = #{userAppVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="userLastLoginTime != null" >
+        user_last_login_time = #{userLastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userIsDelete != null" >
+        user_is_delete = #{userIsDelete,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yang.module.main.dao.pojo.User" >
+    update user
+    set token = #{token,jdbcType=VARCHAR},
+      rim_token = #{rimToken,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_sex = #{userSex,jdbcType=INTEGER},
+      user_age = #{userAge,jdbcType=INTEGER},
+      user_birthday = #{userBirthday,jdbcType=VARCHAR},
+      user_describe = #{userDescribe,jdbcType=VARCHAR},
+      user_phone = #{userPhone,jdbcType=VARCHAR},
+      user_password = #{userPassword,jdbcType=VARCHAR},
+      user_money = #{userMoney,jdbcType=INTEGER},
+      user_integral = #{userIntegral,jdbcType=INTEGER},
+      user_ad_num = #{userAdNum,jdbcType=INTEGER},
+      user_attention = #{userAttention,jdbcType=INTEGER},
+      user_fan = #{userFan,jdbcType=INTEGER},
+      user_location_address = #{userLocationAddress,jdbcType=VARCHAR},
+      user_qq = #{userQq,jdbcType=VARCHAR},
+      user_wechat = #{userWechat,jdbcType=VARCHAR},
+      user_attr = #{userAttr,jdbcType=VARCHAR},
+      user_info_bg = #{userInfoBg,jdbcType=VARCHAR},
+      user_vip_level = #{userVipLevel,jdbcType=INTEGER},
+      user_credit = #{userCredit,jdbcType=INTEGER},
+      user_vip_expired = #{userVipExpired,jdbcType=BIT},
+      user_type = #{userType,jdbcType=INTEGER},
+      user_sign = #{userSign,jdbcType=INTEGER},
+      user_is_sign = #{userIsSign,jdbcType=BIT},
+      user_sign_receive = #{userSignReceive,jdbcType=BIT},
+      user_max_ad_num = #{userMaxAdNum,jdbcType=INTEGER},
+      user_current_ad_num = #{userCurrentAdNum,jdbcType=INTEGER},
+      user_ad_receive = #{userAdReceive,jdbcType=BIT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      user_extra = #{userExtra,jdbcType=VARCHAR},
+      user_app_version = #{userAppVersion,jdbcType=VARCHAR},
+      user_last_login_time = #{userLastLoginTime,jdbcType=TIMESTAMP},
+      user_is_delete = #{userIsDelete,jdbcType=BIT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
